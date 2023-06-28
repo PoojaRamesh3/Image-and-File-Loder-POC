@@ -12,8 +12,6 @@ const SamplePOC = () => {
     { firstname: "", lastname: "" },
   ]);
 
-  const [myArray, setMyArray] = useState<any>([]);
-
   const add = () => {
     const abc = [...state, []];
     setState(abc);
@@ -42,27 +40,29 @@ const SamplePOC = () => {
   const handleSubmit = async () => {
     console.log("data ->", inputs);
 
-    const newObject = inputs.map((input) => ({
-      name: input.firstname,
-      age: input.lastname,
-    }));
     try {
-      const response = await fetch(
-        "https://64393d6f4660f26eb1adef4f.mockapi.io/submitteduserdata",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newObject),
-        }
-      );
+      for (const key in inputs) {
+        if (Object.hasOwnProperty.call(inputs, key)) {
+          const object = inputs[key];
 
-      if (response.ok) {
-        const responseObject = await response.json();
-        setMyArray([...myArray, responseObject]);
-      } else {
-        console.error("Failed to add object to the API.");
+          const response = await fetch(
+            "https://64393d6f4660f26eb1adef4f.mockapi.io/submitteduserdata",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(object),
+            }
+          );
+
+          if (response.ok) {
+            const responseObject = await response.json();
+            console.log("Object added:", responseObject);
+          } else {
+            console.error("Failed to add object to the API.");
+          }
+        }
       }
     } catch (error) {
       console.error("Failed to connect to the API.", error);
@@ -71,8 +71,8 @@ const SamplePOC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className=" mt-5 py-2 ">
-        <div className="flex flex-col ">
+      <div className="mt-5 py-2">
+        <div className="flex flex-col">
           <div
             className="flex items-center border px-4 space-x-2 w-fit p-1 my-2 cursor-pointer mx-auto"
             onClick={() => add()}
@@ -92,7 +92,6 @@ const SamplePOC = () => {
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange(index, event)
                   }
-                  className="border rounded-sm outline-none pl-2 text-sm min-w-[300px] m-3 h-8"
                   value={item.fname}
                   name="firstname"
                 />
@@ -102,17 +101,18 @@ const SamplePOC = () => {
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange(index, event)
                   }
-                  className="border rounded-sm outline-none pl-2 text-sm min-w-[300px] m-3 h-8"
                   value={item.lastname}
                   name="lastname"
                 />
               </div>
-              <AiFillMinusCircle
-                type="button"
-                size={20}
-                onClick={() => handleDelete(index)}
-                className="cursor-pointer"
-              />
+              <span>
+                <AiFillMinusCircle
+                  type="button"
+                  size={20}
+                  onClick={() => handleDelete(index)}
+                  className="cursor-pointer"
+                />
+              </span>
             </div>
           );
         })}
