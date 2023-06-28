@@ -4,6 +4,7 @@ const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [imgBase, setImdBase] = useState<any | null>(null);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -16,7 +17,7 @@ const FileUpload = () => {
     const reader = new FileReader();
     reader.onloadend = () => {
       const base64String = reader.result;
-      console.log("Image in Base64 for API->", base64String);
+      setImdBase(base64String);
     };
     reader.readAsDataURL(file);
   };
@@ -24,6 +25,7 @@ const FileUpload = () => {
   const handleUpload = () => {
     setShowPreview(true);
     console.log("Selected File Here->", selectedFile);
+    console.log("Image in Base64 for API->", imgBase);
     setSelectedFile(null);
   };
 
@@ -40,7 +42,6 @@ const FileUpload = () => {
           />
         </div>
       )}
-      {showPreview && <div></div>}
       <button onClick={handleUpload} className="bg-green-700 text-white px-5">
         Upload
       </button>
