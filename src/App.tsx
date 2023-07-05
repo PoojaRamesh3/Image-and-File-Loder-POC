@@ -1,10 +1,12 @@
-import FileUpload from "./FileUpload";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import IncDec from "./IncDec";
 
 function App() {
   return (
-    <div>
-      <FileUpload />
-    </div>
+    <Provider store={store}>
+      <IncDec />
+    </Provider>
   );
 }
 
