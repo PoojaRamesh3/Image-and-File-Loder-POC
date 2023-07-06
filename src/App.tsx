@@ -1,12 +1,10 @@
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-import IncDec from "./IncDec";
+import Router from "./Router";
 
 function App() {
   return (
-    <Provider store={store}>
-      <IncDec />
-    </Provider>
+    <div className="flex items-center justify-center min-h-screen">
+      <Router />
+    </div>
   );
 }
 
