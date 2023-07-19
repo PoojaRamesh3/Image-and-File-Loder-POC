@@ -1,9 +1,9 @@
-import Router from "./Router";
+import SearchSelect from "./SearchSelect";
 
 function App() {
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <Router />
+      <SearchSelect />
     </div>
   );
 }
